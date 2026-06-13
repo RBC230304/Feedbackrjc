@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback Report</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td{
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th{
+            background-color: #f2f2f2;
+        }
+        button{
+            padding: 8px 15px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Feedback Report</h2>
+
+<button onclick="clearData()">Clear All Feedback</button>
+
+<table id="reportTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Rating</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+function loadReport() {
+    let feedback = JSON.parse(localStorage.getItem("feedbackData")) || [];
+    let tbody = document.querySelector("#reportTable tbody");
+
+    tbody.innerHTML = "";
+
+    feedback.forEach(item => {
+        let row = `
+            <tr>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                <td>${item.rating}</td>
+                <td>${item.comments}</td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+function clearData() {
+    if(confirm("Are you sure you want to delete all feedback?")) {
+        localStorage.removeItem("feedbackData");
+        loadReport();
+    }
+}
+
+loadReport();
+</script>
+
+</body>
+</html>
